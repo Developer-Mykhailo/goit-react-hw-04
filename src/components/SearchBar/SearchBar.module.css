@@ -1,0 +1,34 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+  background-color: blue;
+}
+
+.header form {
+  position: relative;
+}
+
+.header input {
+  padding: 12px;
+  padding-left: 40px;
+  border-radius: 4px;
+  width: 320px;
+}
+
+.header button {
+  position: absolute;
+  top: 11px;
+  left: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
