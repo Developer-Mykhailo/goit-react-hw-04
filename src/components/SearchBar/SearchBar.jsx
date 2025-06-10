@@ -7,8 +7,8 @@ const SearchBar = () => {
       <form>
         <input
           type="text"
-          autocomplete="off"
-          autofocus
+          autoComplete="off"
+          autoFocus
           placeholder="Search images and photos"
         />
         <button type="submit">
