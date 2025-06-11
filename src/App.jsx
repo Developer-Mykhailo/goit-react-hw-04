@@ -11,10 +11,13 @@ function App() {
   const [photos, setPhotos] = useState([]);
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalResults, setTotalResults] = useState(0);
 
   //handlers
   const handleQueryChange = (query) => {
     setQuery(query);
+    setPage(1);
   };
 
   useEffect(() => {
@@ -24,8 +27,14 @@ function App() {
       try {
         setIsLoading(true);
 
-        const { results } = await fetchDataAPI(query);
-        setPhotos(results);
+        const { results, total } = await fetchDataAPI(query, page);
+        setTotalResults(total);
+
+        if (page === 1) {
+          setPhotos(results);
+        } else {
+          setPhotos((prev) => [...prev, ...results]);
+        }
       } catch (error) {
         console.log(error);
       } finally {
@@ -34,7 +43,7 @@ function App() {
     };
 
     fetchPhotos();
-  }, [query]);
+  }, [query, page]);
 
   //JSX
   return (
@@ -44,7 +53,13 @@ function App() {
       <ImageGallery photos={photos} />
       {isLoading && <ClipLoader className="loader" />}
 
-      <LoadMoreBtn />
+      {photos.length > 0 && !isLoading && photos.length < totalResults && (
+        <LoadMoreBtn onClick={() => setPage((prev) => prev + 1)} />
+      )}
+
+      {!isLoading && photos.length > 0 && photos.length >= totalResults && (
+        <p className="no_more_results">No more results</p>
+      )}
     </Container>
   );
 }

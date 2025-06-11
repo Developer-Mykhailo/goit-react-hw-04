@@ -28,3 +28,11 @@ button {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.no_more_results {
+  padding: 20px 0;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  color: #888;
+}
