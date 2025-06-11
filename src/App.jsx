@@ -4,10 +4,12 @@ import Container from "./components/Container/Container";
 import SearchBar from "./components/SearchBar/SearchBar";
 import { fetchDataAPI } from "./services/unsplashAPI";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
+import { ClipLoader } from "react-spinners";
 
 function App() {
   const [photos, setPhotos] = useState([]);
   const [query, setQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   //handlers
   const handleQueryChange = (query) => {
@@ -19,10 +21,14 @@ function App() {
 
     const fetchPhotos = async () => {
       try {
+        setIsLoading(true);
+
         const { results } = await fetchDataAPI(query);
         setPhotos(results);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -33,8 +39,8 @@ function App() {
   return (
     <Container>
       <SearchBar onSubmit={handleQueryChange} />
-
       <ImageGallery photos={photos} />
+      {isLoading && <ClipLoader className="loader" />}
     </Container>
   );
 }
