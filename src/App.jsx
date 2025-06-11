@@ -5,6 +5,7 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import { fetchDataAPI } from "./services/unsplashAPI";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
 import { ClipLoader } from "react-spinners";
+import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 
 function App() {
   const [photos, setPhotos] = useState([]);
@@ -39,8 +40,11 @@ function App() {
   return (
     <Container>
       <SearchBar onSubmit={handleQueryChange} />
+
       <ImageGallery photos={photos} />
       {isLoading && <ClipLoader className="loader" />}
+
+      <LoadMoreBtn />
     </Container>
   );
 }

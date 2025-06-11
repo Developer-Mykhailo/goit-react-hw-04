@@ -1,0 +1,18 @@
+.load_more {
+  display: block;
+  padding: 8px;
+  width: 150px;
+  margin: 0 auto;
+  margin-top: 12px;
+  background-color: #3535f1;
+  color: #fff;
+  font-size: 18px;
+  border: transparent;
+  border-radius: 4px;
+
+  transition: background-color 250ms ease;
+}
+
+.load_more:hover {
+  background-color: #7373ef;
+}
