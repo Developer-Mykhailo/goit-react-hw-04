@@ -15,7 +15,6 @@ export const fetchDataAPI = async (query = "", page = 1) => {
       },
     });
 
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Error fetching photos:", error.message);

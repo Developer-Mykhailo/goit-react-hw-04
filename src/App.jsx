@@ -7,6 +7,7 @@ import ImageGallery from "./components/ImageGallery/ImageGallery";
 import { ClipLoader } from "react-spinners";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+import ImageModal from "./components/ImageModal/ImageModal";
 
 function App() {
   const [photos, setPhotos] = useState([]);
@@ -15,6 +16,9 @@ function App() {
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const [isEmpty, setIsEmpty] = useState(false);
+  const [error, setError] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalImage, setModalImage] = useState({});
 
   //handlers
   const handleQueryChange = (query) => {
@@ -22,6 +26,7 @@ function App() {
     setPage(1);
     setIsEmpty(false);
     setPhotos([]);
+    setError("");
   };
 
   useEffect(() => {
@@ -41,8 +46,9 @@ function App() {
         } else {
           setPhotos((prev) => [...prev, ...results]);
         }
+        //
       } catch (error) {
-        console.log(error);
+        setError(error.message);
       } finally {
         setIsLoading(false);
       }
@@ -51,12 +57,23 @@ function App() {
     fetchPhotos();
   }, [query, page]);
 
+  //modal
+  const handleOpenModal = (image) => {
+    setModalImage(image);
+
+    setModalIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+  };
+
   //JSX
   return (
     <Container>
       <SearchBar onSubmit={handleQueryChange} />
 
-      <ImageGallery photos={photos} />
+      <ImageGallery photos={photos} openModal={handleOpenModal} />
       {isLoading && <ClipLoader className="loader" />}
 
       {photos.length > 0 && !isLoading && photos.length < totalResults && (
@@ -67,7 +84,20 @@ function App() {
         <p className="no_more_results">No more results</p>
       )}
 
-      {isEmpty && <ErrorMessage />}
+      {isEmpty && (
+        <p style={{ textAlign: "center", fontSize: "18px", color: "333" }}>
+          Sorry! Nothing found.
+        </p>
+      )}
+
+      {error && <ErrorMessage error={error} />}
+
+      <ImageModal
+        modalIsOpen={modalIsOpen}
+        closeModal={handleCloseModal}
+        src={modalImage.src}
+        alt={modalImage.alt}
+      />
     </Container>
   );
 }
